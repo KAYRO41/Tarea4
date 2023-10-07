@@ -1,84 +1,398 @@
-`console.long('PROYECTO 1 TRIPLE DE PITAGORAS)`
-
-`console.long('triangulo de pitagoras en python)`
-```python
-print("Trios Pitagoricos hasta 500:")
-
-for p in range(1, 501):
-
-    for q in range(p, 501):
-
-        for r in range(q, 501):
-
-            if p * p + q * q == r * r:
-                print("({}, {}, {}) es un triple de pitagoras".format(p, q, r), end= " ")
-            elif p * p + q * q < r * r:
-
-                print("({}, {}, {}) supera la suma de 500 pero es un triple
-                 de pitagoras".format(p, q, r))
-```
-
-`console.long('triangulo de pitagoras en cpp)`
-```cpp
+## Ejercicio 1
+## Calcular subsidio
+```c++
 #include <iostream>
+#include <vector>
 
-int main(){
-	std::cout<<"TRIPLE DE PITAGORAS NO MAYOR A 500" <<std:: endl;
-	
-	for (int p = 1; p<=500; ++p) {
-		for(int q = p; q<=500; ++q){
-			for(int r = q; r<=500; ++r){
-				if (p*p+q*q == r*r){
-					std::cout<<"("<< p <<","<< q <<","<< r <<")" << std:: endl;
-					if (p+q+r <=500){
-						std::cout<<"es un triple de pitagoras" <<std::endl;	
-					}
-						
-					else{
-					
-						std::cout<<"supera la suma de 500 pero si es un triple de pitagoras"<<std::endl;
-						
-					
-						}	
-																	
-				}
-						
-				
-			}
-			
-					
-			
-		}
-		
-		
-	}
-	
-	
-	return 0;
+double calcularSubsidio(int num_hijos, std::vector<int> edades_hijos, bool es_viuda) {
+    double monto_base = 0.0;
+
+    if (num_hijos <= 2) {
+        monto_base = 70.00;
+    } else if (num_hijos >= 3 && num_hijos <= 5) {
+        monto_base = 90.00;
+    } else {
+        monto_base = 120.00;
+    }
+
+    double monto_adicional_escolar = 0.0;
+    for (int edad : edades_hijos) {
+        if (edad >= 6 && edad <= 18) {
+            monto_adicional_escolar += 10.00;
+        }
+    }
+
+    double monto_adicional_viuda = es_viuda ? 20.00 : 0.0;
+
+    double monto_total = monto_base + monto_adicional_escolar + monto_adicional_viuda;
+    return monto_total;
+}
+
+int main() {
+    int num_hijos = 4;
+    std::vector<int> edades_hijos = {7, 12, 4, 16};
+    bool es_viuda = false;
+
+    double monto_total = calcularSubsidio(num_hijos, edades_hijos, es_viuda);
+    std::cout << "El monto mensual que recibirá la familia es: Q." << monto_total << std::endl;
+
+    return 0;
 }
 ```
 
-`console.long('triangulo de pitagoras en pseint)`
-```psc
-Algoritmo  pitagora500
-    Escribir "Triangulos de pitagoras hasta  500:"
-	
-    Para a <- 1 Hasta 500 Con Paso 1 Hacer
-        Para b <- a Hasta 500 Con Paso 1 Hacer
-            Para c <- b Hasta 500 Con Paso 1 Hacer
-                Si a*a + b*b = c*c Entonces
-                    Escribir "(", a, ", ", b, ", ", c, ")"
-                FinSi
-            FinPara
-        FinPara
-    FinPara 
-	si a + b + c <= 500 Entonces 
-		Escribir  "es un triple de Pitagoras." 
-	sino  
-		escribir"es un triple de Pitagoras, pero su suma supera 500."
-		
-	FinSi
-	
-FinAlgoritmo 
+![insertando captura](6.png)
+## Ejercicio 2
+## longitud de 2 vectores 
+
+```c++
+#include <iostream>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+
+// Función para generar un vector de longitud dada con valores aleatorios entre 1 y 100.
+std::vector<int> generar_vector(int longitud) {
+    std::vector<int> vector;
+    for (int i = 0; i < longitud; i++) {
+        vector.push_back(std::rand() % 100 + 1);
+    }
+    return vector;
+}
+
+// Función para comparar dos vectores y determinar los escenarios.
+std::string comparar_vectores(const std::vector<int>& vector_a, const std::vector<int>& vector_b) {
+    int suma_a = 0;
+    int suma_b = 0;
+
+    for (int valor : vector_a) {
+        suma_a += valor;
+    }
+
+    for (int valor : vector_b) {
+        suma_b += valor;
+    }
+
+    if (suma_a == suma_b) {
+        return "Son iguales";
+    } else if (suma_a < suma_b) {
+        return "El vector A es menor a B";
+    } else {
+        return "El vector B es menor a A";
+    }
+}
+
+int main() {
+    std::srand(static_cast<unsigned>(std::time(nullptr));
+
+    int longitud;
+    std::cout << "Ingrese la longitud de los vectores: ";
+    std::cin >> longitud;
+
+    std::vector<int> vector_a = generar_vector(longitud);
+    std::vector<int> vector_b = generar_vector(longitud);
+
+    std::cout << "Vector A: ";
+    for (int valor : vector_a) {
+        std::cout << valor << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Vector B: ";
+    for (int valor : vector_b) {
+        std::cout << valor << " ";
+    }
+    std::cout << std::endl;
+
+    std::string resultado = comparar_vectores(vector_a, vector_b);
+    std::cout << "Resultado: " << resultado << std::endl;
+
+    return 0;
+}
+```
+![insertando captura](7.png)
+## Ejercicio 3
+## un conjunto de datos reales 
+```c++
+#include <iostream>
+#include <vector>
+#include <limits>
+
+double calcular_rango(const std::vector<double>& datos) {
+    if (datos.empty()) {
+        return std::numeric_limits<double>::quiet_NaN();  // No hay datos para calcular el rango.
+    }
+
+    double max_valor = datos[0];
+    double min_valor = datos[0];
+
+    for (double valor : datos) {
+        if (valor > max_valor) {
+            max_valor = valor;
+        }
+        if (valor < min_valor) {
+            min_valor = valor;
+        }
+    }
+
+    double rango = max_valor - min_valor;
+    return rango;
+}
+
+int main() {
+    std::vector<double> datos = {5.96, 6.74, 7.43, 4.99, 7.20, 0.56, 2.80};
+    double rango_calculado = calcular_rango(datos);
+
+    if (!std::isnan(rango_calculado)) {
+        std::cout << "El rango de los datos es: " << rango_calculado << std::endl;
+    } else {
+        std::cout << "No hay datos para calcular el rango, la lista está vacía." << std::endl;
+    }
+
+    return 0;
+}
+
 
 ```
+
+![insertando captura](8.png)
+## Ejercicio 4
+## El Rango de los datos 
+``` c++
+#include <iostream>
+#include <vector>
+#include <limits>
+
+double calcular_rango(const std::vector<double>& datos) {
+    if (datos.empty()) {
+        return std::numeric_limits<double>::quiet_NaN();  // No hay datos para calcular el rango.
+    }
+
+    double max_valor = datos[0];
+    double min_valor = datos[0];
+
+    for (double valor : datos) {
+        if (valor > max_valor) {
+            max_valor = valor;
+        }
+        if (valor < min_valor) {
+            min_valor = valor;
+        }
+    }
+
+    double rango = max_valor - min_valor;
+    return rango;
+}
+
+int main() {
+    int num_datos;
+    std::cout << "Ingrese la cantidad de datos: ";
+    std::cin >> num_datos;
+
+    std::vector<double> datos;
+
+    for (int i = 0; i < num_datos; i++) {
+        double dato;
+        std::cout << "Ingrese el dato " << i + 1 << ": ";
+        std::cin >> dato;
+        datos.push_back(dato);
+    }
+
+    double rango_calculado = calcular_rango(datos);
+
+    if (!std::isnan(rango_calculado)) {
+        std::cout << "El rango de los datos ingresados es: " << rango_calculado << std::endl;
+    } else {
+        std::cout << "No hay datos para calcular el rango, la lista está vacía." << std::endl;
+    }
+
+    return 0;
+}
+```
+![insertando captura](9.png)
+## Ejercicio 5
+## Cuadrado
+```c++
+#include <iostream>
+
+int main() {
+    int lado;
+    std::cout << "Ingrese el lado del cuadrado: ";
+    std::cin >> lado;
+
+    if (lado < 2) {
+        std::cout << "El lado del cuadrado debe ser igual o mayor a 2." << std::endl;
+    } else {
+        for (int i = 0; i < lado; i++) {
+            if (i == 0 || i == lado - 1) {
+                for (int j = 0; j < lado; j++) {
+                    std::cout << "* ";
+                }
+                std::cout << std::endl;
+            } else {
+                std::cout << "* ";
+                for (int j = 0; j < lado - 2; j++) {
+                    std::cout << "  ";
+                }
+                std::cout << "* " << std::endl;
+            }
+        }
+    }
+
+    return 0;
+}
+```
+![insertando captura](10.png)
+## Ejercicio 1 python
+## Calcular subsidio
+```Python
+def calcularSubsidio(num_hijos, edades_hijos, es_viuda):
+    monto_base = 0
+    
+    if num_hijos <= 2:
+        monto_base = 70.00
+    elif num_hijos >= 3 and num_hijos <= 5:
+        monto_base = 90.00
+    else:
+        monto_base = 120.00
+
+    monto_adicional_escolar = 0
+    for edad in edades_hijos:
+        if 6 <= edad <= 18:
+            monto_adicional_escolar += 10.00
+    
+    if es_viuda:
+        monto_adicional_viuda = 20.00
+    else:
+        monto_adicional_viuda = 0
+
+    monto_total = monto_base + monto_adicional_escolar + monto_adicional_viuda
+    return monto_total
+
+# Ejemplo de uso de la función:
+num_hijos = 4
+edades_hijos = [7, 12, 4, 16]
+es_viuda = False
+
+monto_total = calcularSubsidio(num_hijos, edades_hijos, es_viuda)
+print(f"El monto mensual que recibirá la familia es: Q.{monto_total:.2f}")
+```
+![insertando captura](1.png)
+
+## Ejercicio 2 python
+## longitud de 2 vectores
+
+```python
+import random
+
+# Función para generar un vector de longitud dada con valores aleatorios entre 1 y 100.
+def generar_vector(longitud):
+    return [random.randint(1, 100) for _ in range(longitud)]
+
+# Función para comparar dos vectores y determinar los escenarios.
+def comparar_vectores(vector_a, vector_b):
+    suma_a = sum(vector_a)
+    suma_b = sum(vector_b)
+
+    if suma_a == suma_b:
+        return "Son iguales"
+    elif suma_a < suma_b:
+        return "El vector A es menor a B"
+    else:
+        return "El vector B es menor a A"
+
+# Solicitar al usuario la longitud de los vectores.
+longitud = int(input("Ingrese la longitud de los vectores:"))
+
+# Generar los vectores aleatoriamente.
+vector_a = generar_vector(longitud)
+vector_b = generar_vector(longitud)
+
+# Mostrar los vectores generados.
+print("Vector A:", vector_a)
+print("Vector B:", vector_b)
+
+# Comparar los vectores y mostrar el escenario resultante.
+resultado = comparar_vectores(vector_a, vector_b)
+print("Resultado:", resultado)
+```
+![insertando captura](2.png)
+
+## Ejercicio 3 python
+## un conjunto de datos reales
+
+```python
+def calcular_rango(datos):
+    if len(datos) == 0:
+        return None  # No hay datos para calcular el rango.
+
+    max_valor = max(datos)
+    min_valor = min(datos)
+    rango = max_valor - min_valor
+    return rango
+
+# Ejemplo de uso:
+datos = [5.96, 6.74, 7.43, 4.99, 7.20, 0.56, 2.80]
+rango_calculado = calcular_rango(datos)
+
+if rango_calculado is not None:
+    print("El rango de los datos es:", rango_calculado)
+else:
+    print("No hay datos para calcular el rango, la lista está vacía.")
+
+```
+![insertando captura](3.png)
+
+## Ejercicio 4 python
+## El Rango de los datos 
+
+```python
+def calcular_rango(datos):
+    if len(datos) == 0:
+        return None  # No hay datos para calcular el rango.
+
+    max_valor = max(datos)
+    min_valor = min(datos)
+    rango = max_valor - min_valor
+    return rango
+
+# Preguntar al usuario cuántos datos serán ingresados.
+num_datos = int(input("Ingrese la cantidad de datos: "))
+
+# Inicializar una lista para almacenar los datos.
+datos = []
+
+# Solicitar al usuario ingresar los datos uno por uno.
+for i in range(num_datos):
+    dato = float(input(f"Ingrese el dato {i + 1}: "))
+    datos.append(dato)
+
+# Calcular el rango de los datos.
+rango_calculado = calcular_rango(datos)
+
+if rango_calculado is not None:
+    print("El rango de los datos ingresados es:", rango_calculado)
+else:
+    print("No hay datos para calcular el rango, la lista está vacía.")
+
+```
+![insertando captura](4.png)
+
+## Ejercicio 5 python
+## cuadrado
+
+```python
+# Solicitar al usuario ingresar el lado del cuadrado.
+lado = int(input("Ingrese el lado del cuadrado: "))
+
+# Verificar que el lado sea mayor o igual a 2.
+if lado < 2:
+    print("El lado del cuadrado debe ser igual o mayor a 2.")
+else:
+    # Dibujar el cuadrado.
+    for i in range(lado):
+        if i == 0 or i == lado - 1:
+            print("* " * lado)
+        else:
+            print("* " + "  " * (lado - 2) + "*")
+```
+![insertando captura](5.png)
